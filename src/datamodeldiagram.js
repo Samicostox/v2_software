@@ -19,7 +19,7 @@ import ReactFlow, {
 
 const RectangleNode = ({ id, data }) => {
   const nodeStyle = {
-    padding: 10,
+    padding: 11,
     border: '1px solid black',
     backgroundColor: data.style?.backgroundColor || 'white',
     color: 'black',
