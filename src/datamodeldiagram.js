@@ -15,6 +15,7 @@ import ReactFlow, {
   addEdge,
   Handle,
 } from 'reactflow';
+import TopBar from './topbar';
 
 
 
@@ -226,18 +227,16 @@ const onDragStart = useCallback((event, nodeType) => {
   
     return (
       <div style={{ display: 'flex', width: '100vw', height: '100vh' }}>
+        <TopBar 
+  selectedNode={selectedNode} 
+  setNodes={setNodes} 
+  usedColors={usedColors}
+  defaultColors={defaultColors}
+/>
         <Sidebar onDragStart={onDragStart} />
         <div className="reactflow-wrapper" ref={reactFlowWrapper} style={{ flex: 1, position: 'relative' }}>
           {/* Color Picker */}
-          {showColorPicker && (
-            <div style={{ position: 'absolute', left: colorPickerPosition.x, top: colorPickerPosition.y, zIndex: 5, padding: '10px', backgroundColor: '#fff', boxShadow: '0 0 10px rgba(0,0,0,0.2)' }}>
-              {([...usedColors].length ? [...usedColors] : defaultColors).map(color => (
-                <div key={color} style={{ background: color, width: '25px', height: '25px', display: 'inline-block', cursor: 'pointer', margin: '5px' }}
-                  onClick={() => changeNodeColor(color)} />
-              ))}
-              <input type="color" value={customColor} onChange={onCustomColorChange} onKeyDown={onCustomColorKeyDown} onBlur={onCustomColorBlur} />
-            </div>
-          )}
+         
           {/* Node Name Input */}
           {selectedNode && (
             <div style={{ position: 'absolute', zIndex: 4, left: 10, top: 10 }}>
