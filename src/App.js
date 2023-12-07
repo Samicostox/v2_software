@@ -1,16 +1,15 @@
-import React from 'react';
-import './App.css';
-import './index.css';
+import React from "react";
+import "./App.css";
+import "./index.css";
+import ChatBot from "./Qodly/chatbot";
 
-
-import DataModelDiagram from './datamodeldiagram';
-import ChatBot from './Qodly';
+import DataModelDiagram from "./datamodeldiagram";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <ChatBot></ChatBot>
+        <ChatBot></ChatBot>
       </header>
     </div>
   );
