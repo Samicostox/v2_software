@@ -37,7 +37,7 @@ function ChatBot() {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/chatbot/",
+          "https://djangoback-705982cd1fda.herokuapp.com/api/chatbot/",
           { user_input: trimmedInput, conversation: messagesString }
         );
         const botResponse = response.data.response;
