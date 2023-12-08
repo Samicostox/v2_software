@@ -15,7 +15,6 @@ function ChatBot() {
     scrollbarWidth: "none" /* For Firefox */,
     msOverflowStyle: "none" /* For Internet Explorer and Edge */,
   };
-
   // Hide scrollbar for Chrome, Safari and Opera
   const styleSheet = document.styleSheets[0];
   styleSheet.insertRule(
@@ -181,12 +180,12 @@ function ChatBot() {
           {isBotTyping && renderTypingIndicator()}
         </div>
       </div>
-      <form className="pb-5 max-w-[1500px]" style={{ width: "70%" }}>
+      <div className="pb-5 max-w-[1500px]" style={{ width: "70%" }}>
         <label htmlFor="chat" className="sr-only">
           Your message
         </label>
         <div className="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-          <textarea
+            <textarea
             id="chat"
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
@@ -196,7 +195,6 @@ function ChatBot() {
             placeholder="Your message..."
           ></textarea>
           <button
-            type="submit"
             onClick={handleSend}
             className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600"
           >
@@ -212,7 +210,7 @@ function ChatBot() {
             <span className="sr-only">Send message</span>
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
