@@ -61,20 +61,20 @@ const CSVTable = () => {
   };
 
   const renderCellContent = (cell, header) => {
-    if (header === 'Response_GPT4') {
-      // Splitting the content by lines and processing each line
-      return cell.split('\n').map((line, index) => {
-        // Check if a line contains the start or end of a code block
-        if (line.startsWith('```') || line.endsWith('```')) {
-          // Extract the code (excluding the backticks)
-          const code = line.replace(/```/g, '').trim();
-          // Render as a code block if it's not an empty string
-          return code && <CodeBlock text={code} language="javascript" theme={dracula} key={index} />;
-        } else {
-          // Render as normal text
-          return <span key={index}>{line}<br/></span>;
-        }
-      });
+    if (['Response_3.5', 'Response_4_Vector', 'Response_GPT4'].includes(header)) {
+      const codeStartIndex = cell.indexOf('```');
+      if (codeStartIndex !== -1) {
+        const textPart = cell.substring(0, codeStartIndex);
+        const codePartRaw = cell.substring(codeStartIndex + 3);
+        const codePart = codePartRaw.replace(/\\n/g, '\n');  // Replace \n with actual line breaks
+
+        return (
+          <>
+            {textPart && <span>{textPart}</span>}
+            {codePart && <CodeBlock text={codePart} language="javascript" theme={dracula} />}
+          </>
+        );
+      }
     }
     try {
       const parsedCell = JSON.parse(cell);
