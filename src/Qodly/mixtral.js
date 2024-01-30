@@ -3,8 +3,9 @@ import axios from "axios";
 import hljs from "highlight.js";
 import "highlight.js/styles/default.css";
 import LottieAnimation from "./lottie";
+import mistralLogo from "./assets/mistral_logo_mini.png";
 
-function ChatBot() {
+function Mixtral() {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
@@ -35,10 +36,10 @@ function ChatBot() {
       setIsBotTyping(true); // Bot starts typing
 
       try {
-        const response = await axios.post("http://localhost:8000/api/gpt/", {
-          user_input: trimmedInput,
-          conversation: messagesString,
-        });
+        const response = await axios.post(
+          "http://localhost:8000/api/mixtral/",
+          { user_input: trimmedInput, conversation: messagesString }
+        );
         const botResponse = response.data.response;
         setMessages((messages) => [
           ...messages,
@@ -75,13 +76,13 @@ function ChatBot() {
         {!isUser && (
           <div className="flex items-center justify-center h-8 w-8 bg-gray-700 text-white text-lg rounded-full">
             <img
-              src="https://1000logos.net/wp-content/uploads/2023/02/ChatGPT-Logo.png"
-              alt="Descriptive Text"
+              src={mistralLogo}
+              alt="Mistral Logo"
               style={{
-                maxWidth: "50px", // Adjust width as needed
-                maxHeight: "50px", // Adjust height as needed
-                width: "auto", // Maintain aspect ratio
-                height: "auto", // Maintain aspect ratio
+                maxWidth: "20px",
+                maxHeight: "25px",
+                width: "auto",
+                height: "auto",
               }}
             />
           </div>
@@ -113,13 +114,13 @@ function ChatBot() {
       <div className="flex justify-begining space-x-2 my-2">
         <div className="flex items-center justify-center h-8 w-8 bg-gray-700 text-white text-lg rounded-full">
           <img
-            src="https://1000logos.net/wp-content/uploads/2023/02/ChatGPT-Logo.png"
-            alt="Descriptive Text"
+            src={mistralLogo}
+            alt="Mistral Logo"
             style={{
-              maxWidth: "50px", // Adjust width as needed
-              maxHeight: "50px", // Adjust height as needed
-              width: "auto", // Maintain aspect ratio
-              height: "auto", // Maintain aspect ratio
+              maxWidth: "20px",
+              maxHeight: "25px",
+              width: "auto",
+              height: "auto",
             }}
           />
         </div>
@@ -200,11 +201,11 @@ function ChatBot() {
         }}
       >
         <img
-          src="https://cdn.siasat.com/wp-content/uploads/2023/07/GPT-4.jpg"
+          src="https://docs.mistral.ai/img/logo.svg"
           alt="Descriptive Text"
           style={{
-            maxWidth: "250px", // Adjust width as needed
-            maxHeight: "250px", // Adjust height as needed
+            maxWidth: "200px", // Adjust width as needed
+            maxHeight: "200px", // Adjust height as needed
             width: "auto", // Maintain aspect ratio
             height: "auto", // Maintain aspect ratio
           }}
@@ -220,6 +221,9 @@ function ChatBot() {
         </div>
       </div>
       <div className="pb-5 max-w-[1500px]" style={{ width: "70%" }}>
+        <label htmlFor="chat" className="sr-only">
+          Your message
+        </label>
         <div className="flex items-center px-3 py-2 rounded-lg border border-black focus-within:border-blue-500 focus-within:ring-blue-500 bg-white">
           <textarea
             id="chat"
@@ -250,4 +254,4 @@ function ChatBot() {
     </div>
   );
 }
-export default ChatBot;
+export default Mixtral;

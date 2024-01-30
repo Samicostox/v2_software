@@ -3,19 +3,20 @@ import "./App.css";
 import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import ChatBot from "./Qodly/chatbot";
+import ChatBot from "./Qodly/chatbots";
 import CSVTable from "./Qodly/table";
+import Mixtral from "./Qodly/mixtral";
+import SideBar from "./Qodly/sidebar";
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          {/* Navigation could be added here if needed */}
-        </header>
         <Routes>
-          <Route path="/" element={<ChatBot />} />
+          <Route path="/gpt" element={<ChatBot />} />
+          <Route path="/mixtral" element={<Mixtral />} />
           <Route path="/csvtable" element={<CSVTable />} />
+          <Route path="/" element={<SideBar />} />
         </Routes>
       </div>
     </Router>

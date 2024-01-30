@@ -4,7 +4,7 @@ import hljs from "highlight.js";
 import "highlight.js/styles/default.css";
 import LottieAnimation from "./lottie";
 
-function ChatBot() {
+function GPTFT({ model, big_logo, small_logo }) {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
@@ -35,10 +35,14 @@ function ChatBot() {
       setIsBotTyping(true); // Bot starts typing
 
       try {
-        const response = await axios.post("http://localhost:8000/api/gpt/", {
-          user_input: trimmedInput,
-          conversation: messagesString,
-        });
+        const response = await axios.post(
+          "http://localhost:8000/api/chatbots/",
+          {
+            user_input: trimmedInput,
+            conversation: messagesString,
+            model: model,
+          }
+        );
         const botResponse = response.data.response;
         setMessages((messages) => [
           ...messages,
@@ -73,9 +77,9 @@ function ChatBot() {
         }`}
       >
         {!isUser && (
-          <div className="flex items-center justify-center h-8 w-8 bg-gray-700 text-white text-lg rounded-full">
+          <div className="flex items-center justify-center h-8 w-8 bg-white text-white text-lg rounded-full">
             <img
-              src="https://1000logos.net/wp-content/uploads/2023/02/ChatGPT-Logo.png"
+              src={small_logo}
               alt="Descriptive Text"
               style={{
                 maxWidth: "50px", // Adjust width as needed
@@ -111,9 +115,9 @@ function ChatBot() {
   const renderTypingIndicator = () => {
     return (
       <div className="flex justify-begining space-x-2 my-2">
-        <div className="flex items-center justify-center h-8 w-8 bg-gray-700 text-white text-lg rounded-full">
+        <div className="flex items-center justify-center h-8 w-8 bg-white text-white text-lg rounded-full">
           <img
-            src="https://1000logos.net/wp-content/uploads/2023/02/ChatGPT-Logo.png"
+            src={small_logo}
             alt="Descriptive Text"
             style={{
               maxWidth: "50px", // Adjust width as needed
@@ -200,11 +204,11 @@ function ChatBot() {
         }}
       >
         <img
-          src="https://cdn.siasat.com/wp-content/uploads/2023/07/GPT-4.jpg"
+          src={big_logo}
           alt="Descriptive Text"
           style={{
-            maxWidth: "250px", // Adjust width as needed
-            maxHeight: "250px", // Adjust height as needed
+            maxWidth: "150px", // Adjust width as needed
+            maxHeight: "150px", // Adjust height as needed
             width: "auto", // Maintain aspect ratio
             height: "auto", // Maintain aspect ratio
           }}
@@ -250,4 +254,4 @@ function ChatBot() {
     </div>
   );
 }
-export default ChatBot;
+export default GPTFT;
