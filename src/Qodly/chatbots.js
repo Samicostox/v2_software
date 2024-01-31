@@ -36,7 +36,7 @@ function GPTFT({ model, big_logo, small_logo }) {
 
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/chatbots/",
+          "http://lrback-8e9079a9768d.herokuapp.com/api/chatbots/",
           {
             user_input: trimmedInput,
             conversation: messagesString,

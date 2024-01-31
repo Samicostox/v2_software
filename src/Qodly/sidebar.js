@@ -22,7 +22,7 @@ const navigation = [
   { name: "ChatGPT 3.5 Fine Tuned", href: "#", icon: HomeIcon, current: false },
   { name: "Mixtral", href: "#", icon: UsersIcon, current: false },
   { name: "Mixtral Fine Tuned", href: "#", icon: UsersIcon, current: false },
-  { name: "Llama 2 70b", href: "#", icon: FolderIcon, current: false },
+  { name: "Llama 2 13b", href: "#", icon: FolderIcon, current: false },
   {
     name: "Llama 2 13b Fine Tuned",
     href: "#",
@@ -285,7 +285,7 @@ export default function SideBar() {
                 small_logo={models[3][2]}
               />
             )}
-            {activeContent === "Llama 2 70b" && (
+            {activeContent === "Llama 2 13b" && (
               <ChatBot
                 model={models[4][0]}
                 big_logo={models[4][1]}
