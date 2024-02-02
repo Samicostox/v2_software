@@ -17,6 +17,7 @@ function App() {
           <Route path="/mixtral" element={<Mixtral />} />
           <Route path="/csvtable" element={<CSVTable />} />
           <Route path="/" element={<SideBar />} />
+         
         </Routes>
       </div>
     </Router>

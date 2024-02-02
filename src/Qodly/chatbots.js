@@ -137,6 +137,7 @@ function GPTFT({ model, big_logo, small_logo }) {
             }
           />
         </div>
+        
       </div>
     );
   };
@@ -213,6 +214,11 @@ function GPTFT({ model, big_logo, small_logo }) {
             height: "auto", // Maintain aspect ratio
           }}
         />
+         {["Mixtral-FT", "Llama2", "Llama2-FT"].includes(model) && (
+  <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 mt-4 text-lg">
+    In Development
+  </span>
+)}
       </div>
       <div
         className="max-w-[1500px] no-scrollbar p-4 space-y-2"

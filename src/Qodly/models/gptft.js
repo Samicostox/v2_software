@@ -74,6 +74,7 @@ function GPTFT() {
       >
         {!isUser && (
           <div className="flex items-center justify-center h-8 w-8 bg-gray-700 text-white text-lg rounded-full">
+            
             <img
               src="https://1000logos.net/wp-content/uploads/2023/02/ChatGPT-Logo.png"
               alt="Descriptive Text"
@@ -112,6 +113,7 @@ function GPTFT() {
     return (
       <div className="flex justify-begining space-x-2 my-2">
         <div className="flex items-center justify-center h-8 w-8 bg-gray-700 text-white text-lg rounded-full">
+       
           <img
             src="https://1000logos.net/wp-content/uploads/2023/02/ChatGPT-Logo.png"
             alt="Descriptive Text"
@@ -122,6 +124,7 @@ function GPTFT() {
               height: "auto", // Maintain aspect ratio
             }}
           />
+         
         </div>
         <div
           className="flex items-center space-x-1 bg-gray-700 text-white p-3 rounded-lg "

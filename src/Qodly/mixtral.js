@@ -87,6 +87,7 @@ function Mixtral() {
             />
           </div>
         )}
+        
         <div
           className={`break-words p-3 rounded-lg text-sm ${widthClass} ${
             isUser ? "bg-blue-500 text-left" : "bg-gray-700 text-left"
@@ -105,7 +106,9 @@ function Mixtral() {
             👤
           </div>
         )}
+        
       </div>
+      
     );
   };
 
