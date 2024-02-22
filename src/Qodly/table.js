@@ -1,4 +1,3 @@
-// CSVTable.js
 import React, { useState } from 'react';
 import Papa from 'papaparse';
 import { CodeBlock, dracula } from 'react-code-blocks';
@@ -20,77 +19,40 @@ const CSVTable = () => {
     });
   };
 
-  const getCellStyle = (header, cell) => {
+  const getCellStyle = (cell) => {
     let style = {
-      maxWidth: '200px', // Default maxWidth
+      maxWidth: '200px', // Adjusted maxWidth
       whiteSpace: 'normal',
       wordWrap: 'break-word',
       overflowWrap: 'break-word',
     };
 
-    if (header === 'Response_3.5' || header === 'Response_4_Vector') {
-      style.maxWidth = '500px';
-    } else if (header.toLowerCase().includes('time')) {
-      style.maxWidth = '150px';
-    }
-
-    if (['Response_3.5', 'Response_4_Vector', 'Response_GPT4'].includes(header)) {
-      switch (header) {
-        case 'Response_3.5':
-          style.backgroundColor = '#faf5ff';
-          break;
-        case 'Response_4_Vector':
-          style.backgroundColor = '#fce7f3';
-          break;
-        case 'Response_GPT4':
-          style.backgroundColor = '#ccfbf1';
-          break;
-        default:
-          break;
-      }
-    }
-
-    const value = parseFloat(cell);
-    if (!isNaN(value)) {
-      if (value > 10) style.color = '#ef4444';
-      else if (value > 5) style.color = '#f59e0b';
-      else style.color = '#10b981';
+    // Adjust the style if the cell content is longer (e.g., for code content)
+    if (cell.length > 20) {
+      style = {
+        ...style,
+        maxWidth: '600px', // Increase maxWidth for longer content
+      };
     }
 
     return style;
   };
 
-  const renderCellContent = (cell, header) => {
-    if (['Response_3.5', 'Response_4_Vector', 'Response_GPT4'].includes(header)) {
-      const codeStartIndex = cell.indexOf('```');
-      if (codeStartIndex !== -1) {
-        const textPart = cell.substring(0, codeStartIndex);
-        const codePartRaw = cell.substring(codeStartIndex + 3);
-        const codePart = codePartRaw.replace(/\\n/g, '\n');  // Replace \n with actual line breaks
+  const renderCellContent = (cell) => {
+    // Render content in a code editor if it's longer than 20 characters
+    if (cell.length > 20) {
+      var cleanedContent = cell.replace(/\\n/g, '\n').replace(/```/g, '');
+      return <CodeBlock text={cleanedContent} language="javascript" theme={dracula} />;
+    }
 
-        return (
-          <>
-            {textPart && <span>{textPart}</span>}
-            {codePart && <CodeBlock text={codePart} language="javascript" theme={dracula} />}
-          </>
-        );
-      }
-    }
-    try {
-      const parsedCell = JSON.parse(cell);
-      if (parsedCell && typeof parsedCell === 'object' && parsedCell.response) {
-        return <pre style={{ whiteSpace: 'pre-wrap' }}>{parsedCell.response}</pre>;
-      }
-    } catch (error) {
-      // Not a JSON string, return as is
-    }
+    // Return cell content as is for shorter content
     return cell;
   };
 
   return (
-    <div>
+    <div style={{ height: 'calc(100vh - 40px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      <div className="overflow-x-auto relative mt-4">
+      <div className="overflow-x-auto" style={{ flexGrow: 1 }}>
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-200">
             <tr>
@@ -106,8 +68,8 @@ const CSVTable = () => {
             {tableData.map((row, index) => (
               <tr className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b`} key={index}>
                 {Object.entries(row).map(([header, cell], idx) => (
-                  <td className="py-4 px-6 border-r border-gray-300" style={getCellStyle(header, cell)} key={idx}>
-                    {renderCellContent(cell, header)}
+                  <td className="py-4 px-6 border-r border-gray-300" style={getCellStyle(cell)} key={idx}>
+                    {renderCellContent(cell)}
                   </td>
                 ))}
               </tr>
