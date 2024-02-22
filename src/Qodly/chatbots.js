@@ -3,6 +3,7 @@ import axios from "axios";
 import hljs from "highlight.js";
 import "highlight.js/styles/default.css";
 import LottieAnimation from "./lottie";
+import { CodeBlock, dracula } from "react-code-blocks";
 
 function GPTFT({ model, big_logo, small_logo }) {
   const [messages, setMessages] = useState([]);
@@ -137,34 +138,68 @@ function GPTFT({ model, big_logo, small_logo }) {
             }
           />
         </div>
-        
       </div>
     );
   };
 
   const detectAndRenderCodeSnippet = (text) => {
-    // Split the text by lines
-    const lines = text.split("\n");
-
-    // Filter out lines that are within code blocks (between ```)
     let inCodeBlock = false;
-    const processedLines = lines.map((line) => {
-      if (line.startsWith("```") && !inCodeBlock) {
-        inCodeBlock = true;
-        return ""; // Remove starting backticks
-      } else if (line.startsWith("```") && inCodeBlock) {
-        inCodeBlock = false;
-        return ""; // Remove ending backticks
-      }
-      return inCodeBlock ? (
-        line
-      ) : (
-        <span className="text-white">
-          {line}
-          <br />
-        </span>
+    let codeContent = "";
+
+    // Split the text by lines and process each line
+    const lines = text.split("\n");
+    const processedLines = lines
+      .map((line, index) => {
+        if (line.startsWith("```") && !inCodeBlock) {
+          inCodeBlock = true; // Enter code block mode
+          return null; // Don't return any content for the starting backticks
+        } else if (line.startsWith("```") && inCodeBlock) {
+          inCodeBlock = false; // Exit code block mode
+
+          // Here, render the code content collected so far in a CodeBlock component
+          const codeBlockToRender = (
+            <CodeBlock
+              key={`codeblock-${index}`}
+              text={codeContent}
+              language="javascript"
+              theme={dracula}
+            />
+          );
+
+          // Reset codeContent for the next potential code block
+          codeContent = "";
+          return codeBlockToRender;
+        }
+
+        if (inCodeBlock) {
+          // If in a code block, accumulate lines of code
+          codeContent += `${line}\n`;
+          return null; // Don't return any content while accumulating code block lines
+        } else {
+          // For lines outside of code blocks, return them as normal text
+          return (
+            <span key={index} className="text-white">
+              {line}
+              <br />
+            </span>
+          );
+        }
+      })
+      .filter((component) => component !== null); // Filter out nulls (lines inside code blocks before rendering)
+
+    // In case the text ends with a code block without exiting backticks
+    if (inCodeBlock) {
+      processedLines.push(
+        <CodeBlock
+          key="final-codeblock"
+          text={codeContent}
+          language="javascript"
+          theme={dracula}
+        />
       );
-    });
+    }
+
+    return <div>{processedLines}</div>;
 
     // Join the processed lines back together
     const processedText = processedLines.map((line, index) => {
@@ -192,7 +227,7 @@ function GPTFT({ model, big_logo, small_logo }) {
         flexDirection: "column",
         justifyContent: "flex-end",
         alignItems: "center",
-        position: "relative",
+        position: "relative", // Equivalent to bg-sky-50 in Tailwind CSS
       }}
     >
       <div
@@ -214,11 +249,11 @@ function GPTFT({ model, big_logo, small_logo }) {
             height: "auto", // Maintain aspect ratio
           }}
         />
-         {["Mixtral-FT", "Llama2", "Llama2-FT"].includes(model) && (
-  <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 mt-4 text-lg">
-    In Development
-  </span>
-)}
+        {["Mixtral-FT", "Llama2", "Llama2-FT"].includes(model) && (
+          <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 mt-4 text-lg">
+            In Development
+          </span>
+        )}
       </div>
       <div
         className="max-w-[1500px] no-scrollbar p-4 space-y-2"
@@ -230,7 +265,7 @@ function GPTFT({ model, big_logo, small_logo }) {
         </div>
       </div>
       <div className="pb-5 max-w-[1500px]" style={{ width: "70%" }}>
-        <div className="flex items-center px-3 py-2 rounded-lg border border-black focus-within:border-blue-500 focus-within:ring-blue-500 bg-white">
+        <div className="flex items-center px-3 py-2 rounded-lg border border-black bg-sky-50 focus-within:border-blue-500 focus-within:ring-blue-500 bg-white">
           <textarea
             id="chat"
             value={userInput}

@@ -11,11 +11,7 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import Mixtral from "./mixtral";
 import ChatBot from "./chatbots";
-import Llama2 from "./models/llama2";
-import GPTFT from "./models/gptft";
-import Compare from "./compare";
 
 const navigation = [
   { name: "ChatGPT 4", href: "#", icon: HomeIcon, current: true },
