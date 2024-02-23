@@ -200,22 +200,6 @@ function GPTFT({ model, big_logo, small_logo }) {
     }
 
     return <div>{processedLines}</div>;
-
-    // Join the processed lines back together
-    const processedText = processedLines.map((line, index) => {
-      if (typeof line === "string") {
-        // If it's a string, it's a part of code block
-        return (
-          <span key={index}>
-            {line}
-            <br />
-          </span>
-        );
-      }
-      return line;
-    });
-
-    return <div>{processedText}</div>;
   };
 
   return (
